@@ -1,0 +1,16 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 2,
+  "name": "apt-block/author-posts-table",
+  "version": "0.1.0",
+  "title": "Author Posts Table",
+  "category": "text",
+  "description": "A block to show the current user posts with like/edit/delete features",
+  "supports": {
+    "html": false
+  },
+  "textdomain": "author-posts-table",
+  "editorScript": "file:./index.js",
+  "editorStyle": "file:./index.css",
+  "style": "file:./style-index.css"
+}
