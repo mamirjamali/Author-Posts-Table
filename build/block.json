@@ -9,12 +9,7 @@
   "supports": {
     "html": false
   },
-  "attributes": {
-    "isDeleting": {
-      "type": "boolean",
-      "default": false
-    }
-  },
+  "attributes": {},
   "textdomain": "author-posts-table",
   "editorScript": "file:./index.js",
   "editorStyle": "file:./index.css",

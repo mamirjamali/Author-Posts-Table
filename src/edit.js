@@ -7,8 +7,7 @@ import "bootstrap/dist/css/bootstrap.css";
 // import Button from '@mui/material/Button';
 
 
-export default function Edit({ attributes, setAttributes }) {
-	const { isDeleting } = attributes;
+export default function Edit() {
 	const userId = useSelect(select => {
 		return select('core').getCurrentUser().id
 	})
@@ -60,7 +59,7 @@ export default function Edit({ attributes, setAttributes }) {
 					{
 						userPosts?.length === 0 &&
 							<p class="lead">
-							   There is no post for you to retrive.
+							   There are no posts for you to retrive.
 							</p>
 					}
 					{
@@ -73,21 +72,17 @@ export default function Edit({ attributes, setAttributes }) {
 									<td>{userPost.status}</td>
 									<td>{userPost.date}</td>
 									<td>
-										<button onClick={() =>
+										<button id={`apt-btn-${userPost.id}`} onClick={() =>
 										{
-											setAttributes({isDeleting:true})
+											const but = document.getElementById(`apt-btn-${userPost.id}`)
+											but.setAttribute('disabled', true)
+											but.innerHTML = 'Deleting...'
 											handelClick(userPost.id)
 										}
 									}
 										type="button" className="btn btn-danger btn-sm m-2"
-										disabled={isDeleting}
 										>
-										{isDeleting ? (
-												<>
-												 Deleting...
-												</>
-										) : 'Delete'
-										}
+											Delete
 									</button>
 									</td>
 								</tr>
