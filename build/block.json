@@ -9,7 +9,16 @@
   "supports": {
     "html": false
   },
-  "attributes": {},
+  "attributes": {
+    "pageItems": {
+      "type": "integer",
+      "default": 2
+    },
+    "currentPage": {
+      "type": "integer",
+      "default": 1
+    }
+  },
   "textdomain": "author-posts-table",
   "editorScript": "file:./index.js",
   "editorStyle": "file:./index.css",
