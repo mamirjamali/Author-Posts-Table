@@ -17,6 +17,9 @@
     "currentPage": {
       "type": "integer",
       "default": 1
+    },
+    "selectedCat": {
+      "type": "object"
     }
   },
   "textdomain": "author-posts-table",

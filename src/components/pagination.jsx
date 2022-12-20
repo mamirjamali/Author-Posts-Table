@@ -3,7 +3,6 @@ import PropTypes from 'prop-types'
 
 const Pagination = props => {
     const { allItems, pageSize, onPageChange, currentPage } = props;
-    console.log(currentPage)
     const pagesCount = Math.ceil(allItems / pageSize);
     if (pagesCount === 1 || isNaN(pagesCount)) return null;
     const pages = _.range(1, pagesCount + 1);
