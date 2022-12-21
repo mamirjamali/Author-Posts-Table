@@ -1,12 +1,11 @@
 import { __ } from '@wordpress/i18n';
 import { useBlockProps } from '@wordpress/block-editor';
 import { useSelect } from '@wordpress/data';
-import { Spinner } from '@wordpress/components'
-import { decodeEntities } from '@wordpress/html-entities';
 import "bootstrap/dist/css/bootstrap.css";
-import Pagination from './components/pagination';
+import Pagination from './components/common/pagination';
 import { paginate } from './utils/paginate'
-import ListGroup  from './components/listGroup';
+import ListGroup from './components/common/listGroup';
+import PostsTable from './components/postsTable';
 // import Button from '@mui/material/Button';
 
 
@@ -56,16 +55,15 @@ export default function Edit({ attributes, setAttributes }) {
 				catsObj : getEntityRecords(...queryArgs),
 			}
 		}, [catIds]);
-	let countRow = 1;
 
 	//Paginate
 	const filtered = selectedCat ? allPosts.filter(post => post.categories.includes(selectedCat.id)) : allPosts
 	
 	const userPosts = paginate(filtered, currentPage, pageItems);
-	const countPosts = filtered?.length;
+	const countPosts = filtered ? filtered.length : "...";
 
 	//Handlers
-	const handelClick = id => {
+	const handelDelete = id => {
 		wp.data.dispatch('core').deleteEntityRecord('postType', 'post', id);
 	}
 
@@ -89,63 +87,9 @@ export default function Edit({ attributes, setAttributes }) {
 					<ListGroup items={catsObj} selectedItem={ selectedCat} onItemSelect={handleCatSelect} />
 				</div>
 				<div class="col">
-					<p>You have { countPosts } posts</p>
-					<table class="table">
-						<thead>
-							<tr>
-								<th scope="col">Row</th>
-								<th scope="col">Title</th>
-								<th scope="col">Status</th>
-								<th scope="col">Date</th>
-							</tr>
-						</thead>
-						<tbody>
-							{
-								isLoading &&
-								<>
-									<td></td>
-									<td></td>
-									<td><Spinner/></td>
-									<td></td>
-									<td></td>
-								</>
-							}
-							{
-								countPosts === 0 &&
-									<p class="lead">
-									{ __('There are no posts for you to retrive.', 'apt-block')}
-									</p>
-							}
-							{
-								!isLoading && userPosts?.map(userPost => {
-									
-									return (
-										<tr key={userPost.id}>
-											<th scope="row">{countRow++}</th>
-											<td>{decodeEntities(userPost.title.rendered)}</td>
-											<td>{userPost.status}</td>
-											<td>{userPost.date}</td>
-											<td>
-												<button id={`apt-btn-${userPost.id}`} onClick={() =>
-												{
-													const but = document.getElementById(`apt-btn-${userPost.id}`)
-													but.setAttribute('disabled', true)
-													but.innerHTML = 'Deleting...'
-													handelClick(userPost.id)
-												}
-											}
-												type="button" className="btn btn-danger btn-sm m-2"
-												>
-													Delete
-											</button>
-											</td>
-										</tr>
-									)
-								})
-							}
-						</tbody>
-					</table>
-			
+					<p>You have {countPosts} posts</p>
+					
+					<PostsTable items={userPosts} itemsCount={countPosts} onDeleteItem={handelDelete} itemsLoaded={ isLoading } />
 					<Pagination currentPage={currentPage} allItems={countPosts} pageSize={pageItems} onPageChange={handelPageChange} />
 		   </div>
 		</div>
