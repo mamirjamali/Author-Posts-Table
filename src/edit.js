@@ -94,21 +94,21 @@ export default function Edit({ attributes, setAttributes }) {
 	return (
 		<div {...useBlockProps()}>
 			<div class="row">
+				
 				<div class="col-3">
 					<ListGroup items={catsObj} selectedItem={selectedCat}
 						onItemSelect={handleCatSelect} />
 				</div>
+
 				<div class="col">
+
 					<p>You have {countPosts} posts</p>
 					<PostsTable items={userPosts} itemsCount={countPosts}
-						onDeleteItem={handleDelete} itemsLoaded={isLoading}
-						sortColumn={sortColumn} onSort={handleSort}
-					/>
+						onDeleteItem={handleDelete} itemsNotLoaded={isLoading}
+						sortColumn={sortColumn} onSort={handleSort}/>
 					
 					<Pagination currentPage={currentPage} allItems={countPosts}
-						pageSize={pageItems} onPageChange={handlePageChange}
-
-					/>
+						pageSize={pageItems} onPageChange={handlePageChange}/>
 		   </div>
 		</div>
 	 </div>

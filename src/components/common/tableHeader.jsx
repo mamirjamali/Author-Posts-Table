@@ -14,16 +14,14 @@ class TableHeader extends Component {
 
     render() { 
         const { columns } = this.props
-        console.log(columns)
+
         return (
             <thead>
                 <tr>
                     {
-                        columns?.map(column => {
-                            return (
-                                <th key={column.name || column.key} onClick={() => this.raiseSort(column.name)}>{ column.lable }</th>
-                            )
-                        })
+                        columns?.map(column => 
+                            <th key={column.name || column.key} onClick={() => this.raiseSort(column.name)}>{ column.lable }</th>
+                        )
                     }
                 </tr>
             </thead>

@@ -1,6 +1,46 @@
 /******/ (() => { // webpackBootstrap
 /******/ 	var __webpack_modules__ = ({
 
+/***/ "./src/components/common/deleteButton.jsx":
+/*!************************************************!*\
+  !*** ./src/components/common/deleteButton.jsx ***!
+  \************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
+
+
+class DeleteButton extends react__WEBPACK_IMPORTED_MODULE_1__.Component {
+  render() {
+    const {
+      itemId,
+      onDeleteItem
+    } = this.props;
+    return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("button", {
+      id: `apt-btn-${itemId}`,
+      onClick: () => {
+        const but = document.getElementById(`apt-btn-${itemId}`);
+        but.setAttribute('disabled', true);
+        but.innerHTML = 'Deleting...';
+        onDeleteItem(itemId);
+      },
+      type: "button",
+      className: "btn btn-danger btn-sm m-2"
+    }, "Delete");
+  }
+}
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (DeleteButton);
+
+/***/ }),
+
 /***/ "./src/components/common/listGroup.jsx":
 /*!*********************************************!*\
   !*** ./src/components/common/listGroup.jsx ***!
@@ -98,6 +138,67 @@ Pagination.propTypes = {
 
 /***/ }),
 
+/***/ "./src/components/common/tableBody.jsx":
+/*!*********************************************!*\
+  !*** ./src/components/common/tableBody.jsx ***!
+  \*********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n");
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @wordpress/components */ "@wordpress/components");
+/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _wordpress_html_entities__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @wordpress/html-entities */ "@wordpress/html-entities");
+/* harmony import */ var _wordpress_html_entities__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_wordpress_html_entities__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! lodash */ "lodash");
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_5__);
+
+
+
+
+
+
+class TableBody extends react__WEBPACK_IMPORTED_MODULE_1__.Component {
+  renderCell = (item, column) => {
+    if (column.content) return column.content(item);
+    return lodash__WEBPACK_IMPORTED_MODULE_5___default().get(item, (0,_wordpress_html_entities__WEBPACK_IMPORTED_MODULE_4__.decodeEntities)(column.name));
+  };
+  createKey = (item, column) => {
+    return item.id + (column.name || column.key);
+  };
+  render() {
+    const {
+      columns,
+      items,
+      itemsCount,
+      onDeleteItem,
+      itemsNotLoaded
+    } = this.props;
+    let countRow = 1;
+    return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("tbody", null, itemsNotLoaded && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("td", null), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("td", null), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("td", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.Spinner, null)), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("td", null), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("td", null)), itemsCount === 0 && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", {
+      class: "lead"
+    }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)('There are no posts for you to retrive.', 'apt-block')), !itemsNotLoaded && items?.map(item => (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("tr", {
+      key: item.id
+    }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("th", {
+      scope: "row"
+    }, countRow++), columns?.map(column => (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("td", {
+      key: this.createKey(item, column)
+    }, this.renderCell(item, column))))));
+  }
+}
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (TableBody);
+
+/***/ }),
+
 /***/ "./src/components/common/tableHeader.jsx":
 /*!***********************************************!*\
   !*** ./src/components/common/tableHeader.jsx ***!
@@ -130,13 +231,10 @@ class TableHeader extends react__WEBPACK_IMPORTED_MODULE_1__.Component {
     const {
       columns
     } = this.props;
-    console.log(columns);
-    return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("thead", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("tr", null, columns?.map(column => {
-      return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("th", {
-        key: column.name || column.key,
-        onClick: () => this.raiseSort(column.name)
-      }, column.lable);
-    })));
+    return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("thead", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("tr", null, columns?.map(column => (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("th", {
+      key: column.name || column.key,
+      onClick: () => this.raiseSort(column.name)
+    }, column.lable))));
   }
 }
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (TableHeader);
@@ -156,27 +254,19 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n");
-/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @wordpress/components */ "@wordpress/components");
-/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _wordpress_html_entities__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @wordpress/html-entities */ "@wordpress/html-entities");
-/* harmony import */ var _wordpress_html_entities__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_wordpress_html_entities__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react */ "react");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var _common_tableHeader__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./common/tableHeader */ "./src/components/common/tableHeader.jsx");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _common_tableHeader__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./common/tableHeader */ "./src/components/common/tableHeader.jsx");
+/* harmony import */ var _common_tableBody__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./common/tableBody */ "./src/components/common/tableBody.jsx");
+/* harmony import */ var _common_deleteButton__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./common/deleteButton */ "./src/components/common/deleteButton.jsx");
 
 
 
 
 
-
-class PostsTable extends react__WEBPACK_IMPORTED_MODULE_4__.Component {
+class PostsTable extends react__WEBPACK_IMPORTED_MODULE_1__.Component {
   columns = [{
-    name: "row",
-    lable: "Row"
-  }, {
-    name: "title",
+    name: "title.raw",
     lable: "Title"
   }, {
     name: "status",
@@ -185,43 +275,34 @@ class PostsTable extends react__WEBPACK_IMPORTED_MODULE_4__.Component {
     name: "date",
     lable: "Date"
   }, {
-    name: "delete"
+    name: "delete",
+    content: item => (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_common_deleteButton__WEBPACK_IMPORTED_MODULE_4__["default"], {
+      itemId: item.id,
+      onDeleteItem: this.props.onDeleteItem
+    })
   }];
   render() {
     const {
       items,
       itemsCount,
       onDeleteItem,
-      itemsLoaded,
+      itemsNotLoaded,
       onSort,
       sortColumn
     } = this.props;
-    let countRow = 1;
     return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("table", {
       class: "table"
-    }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_common_tableHeader__WEBPACK_IMPORTED_MODULE_5__["default"], {
+    }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_common_tableHeader__WEBPACK_IMPORTED_MODULE_2__["default"], {
       columns: this.columns,
       onSort: onSort,
       sortColumn: sortColumn
-    }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("tbody", null, itemsLoaded && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("td", null), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("td", null), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("td", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.Spinner, null)), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("td", null), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("td", null)), itemsCount === 0 && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", {
-      class: "lead"
-    }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('There are no posts for you to retrive.', 'apt-block')), !itemsLoaded && items?.map(item => {
-      return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("tr", {
-        key: item.id
-      }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("th", {
-        scope: "row"
-      }, countRow++), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("td", null, (0,_wordpress_html_entities__WEBPACK_IMPORTED_MODULE_3__.decodeEntities)(item.title.rendered)), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("td", null, item.status), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("td", null, item.date), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("td", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("button", {
-        id: `apt-btn-${item.id}`,
-        onClick: () => {
-          const but = document.getElementById(`apt-btn-${item.id}`);
-          but.setAttribute('disabled', true);
-          but.innerHTML = 'Deleting...';
-          onDeleteItem(item.id);
-        },
-        type: "button",
-        className: "btn btn-danger btn-sm m-2"
-      }, "Delete")));
-    })));
+    }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_common_tableBody__WEBPACK_IMPORTED_MODULE_3__["default"], {
+      items: items,
+      itemsCount: itemsCount,
+      onDeleteItem: onDeleteItem,
+      itemsNotLoaded: itemsNotLoaded,
+      columns: this.columns
+    }));
   }
 }
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (PostsTable);
@@ -363,7 +444,7 @@ function Edit(_ref) {
     items: userPosts,
     itemsCount: countPosts,
     onDeleteItem: handleDelete,
-    itemsLoaded: isLoading,
+    itemsNotLoaded: isLoading,
     sortColumn: sortColumn,
     onSort: handleSort
   }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_components_common_pagination__WEBPACK_IMPORTED_MODULE_5__["default"], {
