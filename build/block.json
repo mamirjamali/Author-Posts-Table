@@ -20,6 +20,13 @@
     },
     "selectedCat": {
       "type": "object"
+    },
+    "sortColumn": {
+      "type": "object",
+      "default": {
+        "column": "title",
+        "order": "asc"
+      }
     }
   },
   "textdomain": "author-posts-table",

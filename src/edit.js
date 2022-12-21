@@ -1,7 +1,9 @@
-import { __ } from '@wordpress/i18n';
 import { useBlockProps } from '@wordpress/block-editor';
 import { useSelect } from '@wordpress/data';
+
+import _ from 'lodash';
 import "bootstrap/dist/css/bootstrap.css";
+
 import Pagination from './components/common/pagination';
 import { paginate } from './utils/paginate'
 import ListGroup from './components/common/listGroup';
@@ -11,7 +13,8 @@ import PostsTable from './components/postsTable';
 
 export default function Edit({ attributes, setAttributes }) {
 
-	const { pageItems, currentPage, selectedCat } = attributes;
+	//Attributes Destructuring
+	const { pageItems, currentPage, selectedCat, sortColumn } = attributes;
 
 	//Data Retrive
 	const userId = useSelect(select => {
@@ -56,18 +59,21 @@ export default function Edit({ attributes, setAttributes }) {
 			}
 		}, [catIds]);
 
-	//Paginate
+	//Paginate & Sort
 	const filtered = selectedCat ? allPosts.filter(post => post.categories.includes(selectedCat.id)) : allPosts
+
+	const sorted = _.orderBy(filtered, [sortColumn.column], [sortColumn.order]) 
+
+	const userPosts = paginate(sorted, currentPage, pageItems);
 	
-	const userPosts = paginate(filtered, currentPage, pageItems);
-	const countPosts = filtered ? filtered.length : "...";
+	const countPosts = sorted ? sorted.length : "...";
 
 	//Handlers
-	const handelDelete = id => {
+	const handleDelete = id => {
 		wp.data.dispatch('core').deleteEntityRecord('postType', 'post', id);
 	}
 
-	const handelPageChange = page => {
+	const handlePageChange = page => {
 		setAttributes({
 			currentPage: page
 		})
@@ -79,18 +85,30 @@ export default function Edit({ attributes, setAttributes }) {
 			currentPage: 1
 		})
 	}
+
+	const handleSort = sortOrder => {
+		setAttributes({sortColumn: sortOrder})
+	} 
+
 	//Render
 	return (
 		<div {...useBlockProps()}>
 			<div class="row">
 				<div class="col-3">
-					<ListGroup items={catsObj} selectedItem={ selectedCat} onItemSelect={handleCatSelect} />
+					<ListGroup items={catsObj} selectedItem={selectedCat}
+						onItemSelect={handleCatSelect} />
 				</div>
 				<div class="col">
 					<p>You have {countPosts} posts</p>
+					<PostsTable items={userPosts} itemsCount={countPosts}
+						onDeleteItem={handleDelete} itemsLoaded={isLoading}
+						sortColumn={sortColumn} onSort={handleSort}
+					/>
 					
-					<PostsTable items={userPosts} itemsCount={countPosts} onDeleteItem={handelDelete} itemsLoaded={ isLoading } />
-					<Pagination currentPage={currentPage} allItems={countPosts} pageSize={pageItems} onPageChange={handelPageChange} />
+					<Pagination currentPage={currentPage} allItems={countPosts}
+						pageSize={pageItems} onPageChange={handlePageChange}
+
+					/>
 		   </div>
 		</div>
 	 </div>
