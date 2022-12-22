@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
+import Table from './common/table';
 
-import TableHeader from './common/tableHeader';
-import TableBody from './common/tableBody';
 import DeleteButton from './common/deleteButton';
 
 class PostsTable extends Component {
@@ -20,15 +19,8 @@ class PostsTable extends Component {
         const { items, itemsCount, onDeleteItem, itemsNotLoaded, onSort, sortColumn } = this.props
 
         return ( 
-            <table class="table">
-                <TableHeader columns={this.columns} onSort={onSort}
-                    sortColumn={sortColumn}
-                />
-                <TableBody items={items} itemsCount={itemsCount}
-                    onDeleteItem={onDeleteItem} itemsNotLoaded={itemsNotLoaded}
-                    columns={ this.columns }
-                />
-            </table >
+            <Table columns={this.columns} onSort={onSort} sortColumn={sortColumn} items={items}
+            itemsCount={itemsCount} onDeleteItem={onDeleteItem} itemsNotLoaded={itemsNotLoaded} />
         );
     }
 }

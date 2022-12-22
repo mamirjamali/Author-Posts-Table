@@ -10,7 +10,7 @@ const ListGroup = (props) => {
                 className={
                             !selectedItem ?
                             "list-group-item active" :
-                            "list-group-item"
+                            "list-group-item clickable"
                         }
             >All Categories</li>
             {
@@ -20,7 +20,7 @@ const ListGroup = (props) => {
                             className={
                                 item === selectedItem ?
                                 "list-group-item active" :
-                                "list-group-item"
+                                "list-group-item clickable"
                             }
                         >{item[textProperty]}</li>
                     )

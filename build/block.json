@@ -24,7 +24,7 @@
     "sortColumn": {
       "type": "object",
       "default": {
-        "column": "title",
+        "column": "title.raw",
         "order": "asc"
       }
     }

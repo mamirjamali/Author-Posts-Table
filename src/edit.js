@@ -8,6 +8,7 @@ import Pagination from './components/common/pagination';
 import { paginate } from './utils/paginate'
 import ListGroup from './components/common/listGroup';
 import PostsTable from './components/postsTable';
+import './main.css'
 // import Button from '@mui/material/Button';
 
 
@@ -66,7 +67,7 @@ export default function Edit({ attributes, setAttributes }) {
 
 	const userPosts = paginate(sorted, currentPage, pageItems);
 	
-	const countPosts = sorted ? sorted.length : "...";
+	const countPosts = sorted ? sorted.length : <i class="fas fa-spinner fa-pulse"></i>;
 
 	//Handlers
 	const handleDelete = id => {
@@ -86,15 +87,15 @@ export default function Edit({ attributes, setAttributes }) {
 		})
 	}
 
-	const handleSort = sortOrder => {
-		setAttributes({sortColumn: sortOrder})
+	const handleSort = sortColumn => {
+		setAttributes({sortColumn})
 	} 
 
 	//Render
 	return (
 		<div {...useBlockProps()}>
 			<div class="row">
-				
+
 				<div class="col-3">
 					<ListGroup items={catsObj} selectedItem={selectedCat}
 						onItemSelect={handleCatSelect} />
