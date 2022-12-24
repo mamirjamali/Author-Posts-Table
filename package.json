@@ -23,6 +23,7 @@
 		"@mui/material": "^5.11.0",
 		"bootstrap": "^5.2.3",
 		"font-awesome": "^4.7.0",
+		"joi-browser": "^13.4.0",
 		"lodash": "^4.17.21"
 	}
 }

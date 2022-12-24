@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
+import "bootstrap/dist/css/bootstrap.css";
 import Table from './common/table';
-
-import DeleteButton from './common/deleteButton';
+import DeleteButton from './common/partials/deleteButton';
 
 class PostsTable extends Component {
     columns = [

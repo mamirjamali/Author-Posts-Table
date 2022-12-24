@@ -27,6 +27,10 @@
         "column": "title.raw",
         "order": "asc"
       }
+    },
+    "searchQuery": {
+      "type": "string",
+      "default": ""
     }
   },
   "textdomain": "author-posts-table",

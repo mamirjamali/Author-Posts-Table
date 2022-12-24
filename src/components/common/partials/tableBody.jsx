@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
-
 import { __ } from '@wordpress/i18n';
 import { Spinner, } from '@wordpress/components'
 import { decodeEntities } from '@wordpress/html-entities';
-
 import _ from 'lodash';
+import "bootstrap/dist/css/bootstrap.css";
 
 class TableBody extends Component {
     renderCell = (item, column) => {
@@ -32,8 +31,9 @@ class TableBody extends Component {
                     <td></td>
                 </>
             }
-            {
-                itemsCount === 0 &&
+                { 
+                    !itemsNotLoaded &&
+                    itemsCount === 0 &&
                     <p class="lead">
                     { __('There are no posts for you to retrive.', 'apt-block')}
                     </p>

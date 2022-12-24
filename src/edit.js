@@ -1,13 +1,12 @@
 import { useBlockProps } from '@wordpress/block-editor';
 import { useSelect } from '@wordpress/data';
-
-import _ from 'lodash';
+import _, { filter } from 'lodash';
 import "bootstrap/dist/css/bootstrap.css";
-
 import Pagination from './components/common/pagination';
 import { paginate } from './utils/paginate'
 import ListGroup from './components/common/listGroup';
 import PostsTable from './components/postsTable';
+import SearchBox from './components/common/searchBox';
 import './main.css'
 // import Button from '@mui/material/Button';
 
@@ -15,7 +14,7 @@ import './main.css'
 export default function Edit({ attributes, setAttributes }) {
 
 	//Attributes Destructuring
-	const { pageItems, currentPage, selectedCat, sortColumn } = attributes;
+	const { pageItems, currentPage, selectedCat, sortColumn, searchQuery } = attributes;
 
 	//Data Retrive
 	const userId = useSelect(select => {
@@ -59,9 +58,19 @@ export default function Edit({ attributes, setAttributes }) {
 				catsObj : getEntityRecords(...queryArgs),
 			}
 		}, [catIds]);
-
+	
 	//Paginate & Sort
-	const filtered = selectedCat ? allPosts.filter(post => post.categories.includes(selectedCat.id)) : allPosts
+	let filtered = allPosts
+	console.log(filtered)
+	if (searchQuery) {
+		
+		filtered = allPosts?.filter(post =>
+			
+			post.title.raw.toLowerCase().startsWith(searchQuery.toLowerCase()))
+	}
+	else if (selectedCat){
+		filtered = allPosts?.filter(post => post.categories.includes(selectedCat.id))
+	}
 
 	const sorted = _.orderBy(filtered, [sortColumn.column], [sortColumn.order]) 
 
@@ -83,7 +92,8 @@ export default function Edit({ attributes, setAttributes }) {
 	const handleCatSelect = (item) => {
 		setAttributes({
 			selectedCat: item,
-			currentPage: 1
+			currentPage: 1,
+			searchQuery: ""
 		})
 	}
 
@@ -91,19 +101,28 @@ export default function Edit({ attributes, setAttributes }) {
 		setAttributes({sortColumn})
 	} 
 
+	const handleSearch = query => {
+		setAttributes({
+			selectedCat: null,
+			searchQuery: query,
+			currentPage: 1
+		})
+	}
 	//Render
 	return (
 		<div {...useBlockProps()}>
 			<div class="row">
-
 				<div class="col-3">
 					<ListGroup items={catsObj} selectedItem={selectedCat}
 						onItemSelect={handleCatSelect} />
 				</div>
 
 				<div class="col">
-
-					<p>You have {countPosts} posts</p>
+					{
+						allPosts && !isLoading && 
+						<p>You have {countPosts} posts</p>
+					}
+					<SearchBox value={searchQuery} onChange={handleSearch} />
 					<PostsTable items={userPosts} itemsCount={countPosts}
 						onDeleteItem={handleDelete} itemsNotLoaded={isLoading}
 						sortColumn={sortColumn} onSort={handleSort}/>
