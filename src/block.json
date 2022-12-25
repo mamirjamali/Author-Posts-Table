@@ -10,25 +10,33 @@
 		"html": false
 	},
 	"attributes": {
-		"pageItems":{
-			"type":"integer",
+		"allPost": {
+			"type": "object",
+			"default": ""
+		},
+		"isLoading": {
+			"type": "boolean",
+			"default": false
+		},
+		"pageItems": {
+			"type": "integer",
 			"default": 2
 		},
-		"currentPage":{
-			"type":"integer",
+		"currentPage": {
+			"type": "integer",
 			"default": 1
-		  },
-		"selectedCat": {
-			"type":"object"
 		},
-		"sortColumn":{
+		"selectedCat": {
+			"type": "object"
+		},
+		"sortColumn": {
 			"type": "object",
-			"default":{
+			"default": {
 				"column": "title.raw",
 				"order": "asc"
 			}
 		},
-		"searchQuery":{
+		"searchQuery": {
 			"type": "string",
 			"default": ""
 		}

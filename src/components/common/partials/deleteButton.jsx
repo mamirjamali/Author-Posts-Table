@@ -5,18 +5,18 @@ class DeleteButton extends Component {
     delete = React.createRef()
 
     render() { 
-        const { itemId, onDeleteItem } = this.props;
+        const { item, onDeleteItem } = this.props;
         
         return (
-            <button ref={this.delete} id={`apt-btn-${itemId}`} onClick={() =>
+            <button ref={this.delete} id={`apt-btn-${item.id}`} onClick={() =>
                 {
                 const but = this.delete.current
-                setTimeout(() => {
-                    but.setAttribute('disabled', true)
-                    but.innerHTML = 'Deleting...'
-                    onDeleteItem(itemId)
-                },3000)
-                but.innerHTML = 'Undo...'
+                // setTimeout(() => {
+                //     but.setAttribute('disabled', true)
+                    // but.innerHTML = 'Deleting...'
+                    onDeleteItem(item)
+                // },3000)
+                // but.innerHTML = 'Undo...'
                 }
             }
                 type="button" className="btn btn-danger btn-sm m-2"

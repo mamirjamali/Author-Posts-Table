@@ -1,20 +1,23 @@
 import { useBlockProps } from '@wordpress/block-editor';
 import { useSelect } from '@wordpress/data';
-import _, { filter } from 'lodash';
-import "bootstrap/dist/css/bootstrap.css";
+import _  from 'lodash';
+import {ToastContainer, toast} from "react-toastify"
 import Pagination from './components/common/pagination';
 import { paginate } from './utils/paginate'
 import ListGroup from './components/common/listGroup';
 import PostsTable from './components/postsTable';
 import SearchBox from './components/common/searchBox';
 import './main.css'
+import "bootstrap/dist/css/bootstrap.css";
+import "react-toastify/dist/ReactToastify.css"
 // import Button from '@mui/material/Button';
 
 
 export default function Edit({ attributes, setAttributes }) {
 
 	//Attributes Destructuring
-	const { pageItems, currentPage, selectedCat, sortColumn, searchQuery } = attributes;
+	const { pageItems, currentPage, selectedCat,
+		   sortColumn, searchQuery, isLoading, allPosts } = attributes;
 
 	//Data Retrive
 	const userId = useSelect(select => {
@@ -22,8 +25,8 @@ export default function Edit({ attributes, setAttributes }) {
 	});
 
         //Get Author Posts
-		const { allPosts, isLoading } = useSelect(select => {
-			const { getEntityRecords, isResolving } = select('core');
+		const { postsQuery, loaded } = useSelect(select => {
+			const { getEntityRecords, hasFinishedResolution } = select('core');
 			const queryArgs = [
 				'postType', 
 				'post',
@@ -32,11 +35,12 @@ export default function Edit({ attributes, setAttributes }) {
 				}
 			]
 			return{
-				allPosts : getEntityRecords(...queryArgs),
-				isLoading: isResolving('getEntityRecords', queryArgs)
+				postsQuery : getEntityRecords(...queryArgs),
+				loaded: hasFinishedResolution('getEntityRecords', queryArgs)
 			}
 		}, [userId]);
-
+	
+		if(postsQuery && loaded) setAttributes({ allPosts: postsQuery, isLoading: loaded})
 	   //Get Author Posts Categories
 		const catIds = []
 		allPosts?.forEach(post => {
@@ -61,11 +65,8 @@ export default function Edit({ attributes, setAttributes }) {
 	
 	//Paginate & Sort
 	let filtered = allPosts
-	console.log(filtered)
 	if (searchQuery) {
-		
 		filtered = allPosts?.filter(post =>
-			
 			post.title.raw.toLowerCase().startsWith(searchQuery.toLowerCase()))
 	}
 	else if (selectedCat){
@@ -79,8 +80,24 @@ export default function Edit({ attributes, setAttributes }) {
 	const countPosts = sorted ? sorted.length : <i class="fas fa-spinner fa-pulse"></i>;
 
 	//Handlers
-	const handleDelete = id => {
-		wp.data.dispatch('core').deleteEntityRecord('postType', 'post', id);
+	const handleDelete = async item => {
+		const success = await wp.data.dispatch('core').deleteEntityRecord('postType', 'post', item.id);
+		const lastError = await wp.data.select('core').getLastEntityDeleteError('postType', 'post', item.id);
+		if (success) {
+			toast.success("Item deleted");
+		}
+		else {
+			const error = lastError &&
+				lastError.data &&
+				lastError.data.status >= 400 &&
+				lastError.data.status < 500
+			if (error) {
+				toast.error("Please refresh the page")
+				return
+			}
+			toast.error("Unexpected error happend")
+        }
+		
 	}
 
 	const handlePageChange = page => {
@@ -118,8 +135,9 @@ export default function Edit({ attributes, setAttributes }) {
 				</div>
 
 				<div class="col">
+				<ToastContainer position="bottom-right"/>
 					{
-						allPosts && !isLoading && 
+						isLoading && 
 						<p>You have {countPosts} posts</p>
 					}
 					<SearchBox value={searchQuery} onChange={handleSearch} />

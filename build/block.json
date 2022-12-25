@@ -10,6 +10,14 @@
     "html": false
   },
   "attributes": {
+    "allPost": {
+      "type": "object",
+      "default": ""
+    },
+    "isLoading": {
+      "type": "boolean",
+      "default": false
+    },
     "pageItems": {
       "type": "integer",
       "default": 2

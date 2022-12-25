@@ -16,13 +16,13 @@ class TableBody extends Component {
         return item.id + (column.name || column.key)
     }
     render() { 
-        const { columns, items, itemsCount, onDeleteItem, itemsNotLoaded } = this.props;
+        const { columns, items, itemsCount, itemsNotLoaded } = this.props;
         let countRow = 1;
 
         return (
             <tbody>
             {
-                itemsNotLoaded &&
+                !itemsNotLoaded &&
                 <>
                     <td></td>
                     <td></td>
@@ -32,14 +32,14 @@ class TableBody extends Component {
                 </>
             }
                 { 
-                    !itemsNotLoaded &&
+                    itemsNotLoaded &&
                     itemsCount === 0 &&
                     <p class="lead">
                     { __('There are no posts for you to retrive.', 'apt-block')}
                     </p>
             }
                 {
-                    !itemsNotLoaded && items?.map(item => <tr key={item.id}>
+                    itemsNotLoaded && items?.map(item => <tr key={item.id}>
                        <th scope="row">{countRow++}</th> 
                         {columns?.map(column => (
                             <td key={this.createKey(item, column)}>

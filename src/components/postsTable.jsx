@@ -10,7 +10,7 @@ class PostsTable extends Component {
         { name: "date", lable: "Date" },
         {
             name: "delete",
-            content: item => (<DeleteButton itemId={item.id} onDeleteItem={this.props.onDeleteItem} />)
+            content: item => (<DeleteButton item={item} onDeleteItem={this.props.onDeleteItem} />)
         }
     ];
 
