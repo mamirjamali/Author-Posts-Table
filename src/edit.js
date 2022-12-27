@@ -8,9 +8,6 @@ import ListGroup from './components/common/listGroup';
 import PostsTable from './components/postsTable';
 import SearchBox from './components/common/searchBox';
 import './main.css'
-import "bootstrap/dist/css/bootstrap.css";
-import "react-toastify/dist/ReactToastify.css"
-// import Button from '@mui/material/Button';
 
 
 export default function Edit({ attributes, setAttributes }) {
@@ -84,7 +81,7 @@ export default function Edit({ attributes, setAttributes }) {
 		const success = await wp.data.dispatch('core').deleteEntityRecord('postType', 'post', item.id);
 		const lastError = await wp.data.select('core').getLastEntityDeleteError('postType', 'post', item.id);
 		if (success) {
-			toast.success("Item deleted");
+			toast.success("Item deleted successfuly");
 		}
 		else {
 			const error = lastError &&

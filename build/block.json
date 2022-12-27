@@ -20,7 +20,7 @@
     },
     "pageItems": {
       "type": "integer",
-      "default": 2
+      "default": 4
     },
     "currentPage": {
       "type": "integer",
@@ -44,5 +44,6 @@
   "textdomain": "author-posts-table",
   "editorScript": "file:./index.js",
   "editorStyle": "file:./index.css",
-  "style": "file:./style-index.css"
+  "style": "file:./index.css",
+  "viewScript": "file:./frontend.js"
 }

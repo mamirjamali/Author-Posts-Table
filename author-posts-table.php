@@ -13,8 +13,23 @@
  * @package           apt-block
  */
 
-function apt_block_author_posts_table_block_init()
-{
-	register_block_type(__DIR__ . '/build');
+if (!function_exists('add_action')) {
+	echo "Seems you stumbled here by accident.";
+	exit;
 }
-add_action('init', 'apt_block_author_posts_table_block_init');
+//Setup
+define('APT_PLUGIN_DIR', plugin_dir_path(__FILE__));
+define('APT_PLUGIN_FILE', __FILE__);
+
+
+//Includes
+include(APT_PLUGIN_DIR . 'includes/author-posts.php');
+
+//Register
+function apt_block_author_posts_table_init()
+{
+	register_block_type(APT_PLUGIN_DIR . 'build', [
+		'render_callback' => 'apt_author_posts_table_render_cb'
+	]);
+}
+add_action('init', 'apt_block_author_posts_table_init');
