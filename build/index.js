@@ -23,6 +23,7 @@ const ListGroup = props => {
     valueProperty,
     selectedItem
   } = props;
+  console.log(items);
   return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("ul", {
     class: "list-group"
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("li", {

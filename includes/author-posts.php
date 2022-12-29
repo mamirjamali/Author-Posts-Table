@@ -8,9 +8,7 @@ function apt_author_posts_table_render_cb($atts, $content, $block)
     $userID = get_current_user_id();
     ob_start();
 ?>
-<div class="wp-block-apt-block-author-posts-table">
-    <div class="row" id="apt-author-posts" data-user-id="<?php echo $userID; ?>">
-    </div>
+<div class="wp-block-apt-block-author-posts-table" id="apt-author-posts" data-user-id="<?php echo $userID; ?>">
 </div>
 
 <?php

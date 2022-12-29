@@ -23,6 +23,7 @@ const ListGroup = props => {
     valueProperty,
     selectedItem
   } = props;
+  console.log(items);
   return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("ul", {
     class: "list-group"
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("li", {
@@ -109,30 +110,6 @@ const SearchBox = _ref => {
   });
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (SearchBox);
-
-/***/ }),
-
-/***/ "./node_modules/bootstrap/dist/css/bootstrap.css":
-/*!*******************************************************!*\
-  !*** ./node_modules/bootstrap/dist/css/bootstrap.css ***!
-  \*******************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-// extracted by mini-css-extract-plugin
-
-
-/***/ }),
-
-/***/ "./node_modules/react-toastify/dist/ReactToastify.css":
-/*!************************************************************!*\
-  !*** ./node_modules/react-toastify/dist/ReactToastify.css ***!
-  \************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-// extracted by mini-css-extract-plugin
-
 
 /***/ }),
 
@@ -270,37 +247,60 @@ var __webpack_exports__ = {};
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "react");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @wordpress/api-fetch */ "@wordpress/api-fetch");
-/* harmony import */ var _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _components_common_searchBox__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./components/common/searchBox */ "./src/components/common/searchBox.jsx");
-/* harmony import */ var bootstrap_dist_css_bootstrap_css__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! bootstrap/dist/css/bootstrap.css */ "./node_modules/bootstrap/dist/css/bootstrap.css");
-/* harmony import */ var react_toastify_dist_ReactToastify_css__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react-toastify/dist/ReactToastify.css */ "./node_modules/react-toastify/dist/ReactToastify.css");
-/* harmony import */ var _components_common_listGroup__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./components/common/listGroup */ "./src/components/common/listGroup.jsx");
-
-
-
+/* harmony import */ var _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/api-fetch */ "@wordpress/api-fetch");
+/* harmony import */ var _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _components_common_searchBox__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./components/common/searchBox */ "./src/components/common/searchBox.jsx");
+/* harmony import */ var _components_common_listGroup__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./components/common/listGroup */ "./src/components/common/listGroup.jsx");
 
 
 
 
 
 function AuthorPostTable(props) {
-  const [searchQuery, setSearchQuery] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)("");
+  const [searchQuery, setSearchQuery] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useState)("");
+  const [selectedCat, setSelectedCat] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useState)(null);
+  const [catsObj, setCatsObj] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useState)([]);
   const catIds = [];
   props.allPosts?.forEach(post => {
     post.categories.forEach(category => {
       catIds.push(category);
     });
   });
-  console.log(searchQuery);
-  const handleSearch = query => setSearchQuery(query);
-  return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+  const catsID = [...new Set(catIds)]; // remove duplicate values
+  const getObj = catsID.map(async (id, index) => {
+    const cat = await _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_1___default()({
+      path: `wp/v2/categories/${id}`,
+      method: 'GET'
+    });
+    return getObj[index] = cat;
+  });
+  (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
+    setCatsObj(getObj);
+  }, []);
+
+  // console.log(catsObj)
+  const handleSearch = query => {
+    setSearchQuery(query);
+  };
+  const handleCatSelect = item => {
+    setSelectedCat({
+      selectedCat: item
+      // currentPage: 1,
+      // searchQuery: ""
+    });
+  };
+
+  return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    class: "row"
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     class: "col-3"
-  }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_components_common_listGroup__WEBPACK_IMPORTED_MODULE_3__["default"], {
+    items: catsObj,
+    selectedItem: selectedCat,
+    onItemSelect: handleCatSelect
+  })), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     class: "col"
-  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_components_common_searchBox__WEBPACK_IMPORTED_MODULE_3__["default"], {
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_components_common_searchBox__WEBPACK_IMPORTED_MODULE_2__["default"], {
     value: searchQuery,
     onChange: handleSearch
   })));
@@ -308,7 +308,7 @@ function AuthorPostTable(props) {
 document.addEventListener('DOMContentLoaded', async () => {
   const block = document.querySelector('#apt-author-posts');
   const userID = parseInt(block.dataset.userId);
-  const response = await _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_2___default()({
+  const response = await _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_1___default()({
     path: `wp/v2/posts?author=${userID}`,
     method: 'GET'
   });
