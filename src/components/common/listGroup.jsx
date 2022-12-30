@@ -1,7 +1,8 @@
 
+
 const ListGroup = (props) => {
     const { items, onItemSelect, textProperty, valueProperty, selectedItem } = props;
-    console.log(items)
+
     return ( 
         <ul class="list-group">
 

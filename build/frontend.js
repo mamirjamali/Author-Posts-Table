@@ -23,7 +23,6 @@ const ListGroup = props => {
     valueProperty,
     selectedItem
   } = props;
-  console.log(items);
   return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("ul", {
     class: "list-group"
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("li", {
@@ -258,8 +257,9 @@ __webpack_require__.r(__webpack_exports__);
 
 function AuthorPostTable(props) {
   const [searchQuery, setSearchQuery] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useState)("");
-  const [selectedCat, setSelectedCat] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useState)(null);
+  const [selectedCat, setSelectedCat] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useState)();
   const [catsObj, setCatsObj] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useState)([]);
+  const [resolved, setResolved] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
   const catIds = [];
   props.allPosts?.forEach(post => {
     post.categories.forEach(category => {
@@ -267,34 +267,38 @@ function AuthorPostTable(props) {
     });
   });
   const catsID = [...new Set(catIds)]; // remove duplicate values
-  const getObj = catsID.map(async (id, index) => {
-    const cat = await _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_1___default()({
+  const getObj = [];
+  catsID.map(async (id, index) => {
+    // Get each category object to prepare for ListGroup component
+    await _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_1___default()({
       path: `wp/v2/categories/${id}`,
       method: 'GET'
+      // parse: false,
+    }).then(res => {
+      getObj[index] = {
+        id: res.id,
+        name: res.name
+      };
+      if (index >= catsID.length - 1) setResolved(true);
+    }).catch(err => {
+      console.error(`We got an error: ${err.message}`);
     });
-    return getObj[index] = cat;
   });
   (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
     setCatsObj(getObj);
   }, []);
-
-  // console.log(catsObj)
+  console.log(catsObj.length, catsID.length);
   const handleSearch = query => {
     setSearchQuery(query);
   };
   const handleCatSelect = item => {
-    setSelectedCat({
-      selectedCat: item
-      // currentPage: 1,
-      // searchQuery: ""
-    });
+    setSelectedCat(item);
   };
-
   return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     class: "row"
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     class: "col-3"
-  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_components_common_listGroup__WEBPACK_IMPORTED_MODULE_3__["default"], {
+  }, resolved && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_components_common_listGroup__WEBPACK_IMPORTED_MODULE_3__["default"], {
     items: catsObj,
     selectedItem: selectedCat,
     onItemSelect: handleCatSelect

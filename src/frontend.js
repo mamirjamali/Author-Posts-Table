@@ -6,49 +6,57 @@ import ListGroup from './components/common/listGroup';
 
 function AuthorPostTable (props){
         const [searchQuery, setSearchQuery] = useState("")
-        const [selectedCat, setSelectedCat] = useState(null)
+        const [selectedCat, setSelectedCat] = useState()
         const [catsObj, setCatsObj] = useState([])
+        const [resolved, setResolved] = useState(false)
         
         const catIds = []
-		props.allPosts?.forEach(post => {
-			post.categories.forEach(category => {
-				catIds.push(category)
-			})
+        props.allPosts?.forEach(post => {
+                post.categories.forEach(category => {
+                        catIds.push(category)
                 })
+        })
         const catsID = [...new Set(catIds)] // remove duplicate values
-        const getObj = catsID.map(async (id, index) => {
-                const cat = await apiFetch({
+        const getObj = []
+        catsID.map(async (id, index) => {// Get each category object to prepare for ListGroup component
+                await apiFetch({
                         path: `wp/v2/categories/${id}`,
                         method: 'GET',
-                })
-                return getObj[index] = cat
-        })  
+                        // parse: false,
+                }).then((res) => {
+                        getObj[index] = ({ id: res.id, name: res.name }) 
+                        if(index >= catsID.length-1) setResolved(true)
+                }).catch((err) => {
+                        console.error(`We got an error: ${err.message}`);
+                      });
+                
+        })
 
+        
         useEffect(() => {
                 setCatsObj(getObj)
-        }, [])     
+        }, [])  
         
-        // console.log(catsObj)
+        console.log(catsObj.length, catsID.length)
         const handleSearch = query => {
 		setSearchQuery(query)
         }
 
         const handleCatSelect = (item) => {
-		setSelectedCat({
-			selectedCat: item,
-			// currentPage: 1,
-			// searchQuery: ""
-		})
+		setSelectedCat(item)
 	}
         return (
                 <div class="row">
-                    <div class="col-3">
-                        <ListGroup items={catsObj} selectedItem={selectedCat}
-			     onItemSelect={handleCatSelect} />
-                   </div>
-                   <div class="col">
-                        <SearchBox value={searchQuery} onChange={handleSearch} />
-                   </div>
+                        <div class="col-3">
+                                {
+                                resolved &&  
+                                <ListGroup items={catsObj} selectedItem={selectedCat}
+                                        onItemSelect={handleCatSelect} />
+                                }
+                        </div>
+                        <div class="col">
+                                <SearchBox value={searchQuery} onChange={handleSearch} />
+                        </div>
                 </div>
           );
 }
