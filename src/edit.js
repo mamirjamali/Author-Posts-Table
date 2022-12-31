@@ -74,7 +74,10 @@ export default function Edit({ attributes, setAttributes }) {
 
 	const userPosts = paginate(sorted, currentPage, pageItems);
 	
-	const countPosts = sorted ? sorted.length : <i class="fas fa-spinner fa-pulse"></i>;
+	const countPosts = sorted ? sorted.length :
+		<div class="spinner-border text-primary" role="status">
+			<span class="visually-hidden">Loading...</span>
+		</div>;
 
 	//Handlers
 	const handleDelete = async item => {
@@ -139,7 +142,7 @@ export default function Edit({ attributes, setAttributes }) {
 					}
 					<SearchBox value={searchQuery} onChange={handleSearch} />
 					<PostsTable items={userPosts} itemsCount={countPosts}
-						onDeleteItem={handleDelete} itemsNotLoaded={isLoading}
+						onDeleteItem={handleDelete} itemsLoaded={isLoading}
 						sortColumn={sortColumn} onSort={handleSort}/>
 					
 					<Pagination currentPage={currentPage} allItems={countPosts}

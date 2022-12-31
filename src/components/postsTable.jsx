@@ -5,7 +5,7 @@ import DeleteButton from './common/partials/deleteButton';
 
 class PostsTable extends Component {
     columns = [
-        { name: "title.raw", lable: "Title" },
+        { name: "title.rendered", lable: "Title" },
         { name: "status", lable: "Status" },
         { name: "date", lable: "Date" },
         {
@@ -16,11 +16,11 @@ class PostsTable extends Component {
 
     render() { 
 
-        const { items, itemsCount, onDeleteItem, itemsNotLoaded, onSort, sortColumn } = this.props
+        const { items, itemsCount, onDeleteItem, itemsLoaded, onSort, sortColumn } = this.props
 
         return ( 
             <Table columns={this.columns} onSort={onSort} sortColumn={sortColumn} items={items}
-            itemsCount={itemsCount} onDeleteItem={onDeleteItem} itemsNotLoaded={itemsNotLoaded} />
+            itemsCount={itemsCount} onDeleteItem={onDeleteItem} itemsLoaded={itemsLoaded} />
         );
     }
 }

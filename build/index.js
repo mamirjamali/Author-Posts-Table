@@ -215,12 +215,12 @@ class TableBody extends react__WEBPACK_IMPORTED_MODULE_1__.Component {
       columns,
       items,
       itemsCount,
-      itemsNotLoaded
+      itemsLoaded
     } = this.props;
     let countRow = 1;
-    return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("tbody", null, !itemsNotLoaded && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("td", null), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("td", null), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("td", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.Spinner, null)), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("td", null), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("td", null)), itemsNotLoaded && itemsCount === 0 && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", {
+    return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("tbody", null, !itemsLoaded && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("td", null), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("td", null), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("td", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.Spinner, null)), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("td", null), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("td", null)), itemsLoaded && itemsCount === 0 && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", {
       class: "lead"
-    }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)('There are no posts for you to retrive.', 'apt-block')), itemsNotLoaded && items?.map(item => (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("tr", {
+    }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)('There are no posts for you to retrive.', 'apt-block')), itemsLoaded && items?.map(item => (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("tr", {
       key: item.id
     }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("th", {
       scope: "row"
@@ -320,7 +320,7 @@ const SearchBox = _ref => {
   } = _ref;
   return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_partials_input__WEBPACK_IMPORTED_MODULE_2__["default"], {
     type: "text",
-    placeholder: "  Search ...",
+    placeholder: "Search ...",
     name: "search_field",
     className: "form-control my-3",
     value: value,
@@ -360,7 +360,7 @@ const Table = _ref => {
     items,
     itemsCount,
     onDeleteItem,
-    itemsNotLoaded
+    itemsLoaded
   } = _ref;
   return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("table", {
     class: "table"
@@ -372,7 +372,7 @@ const Table = _ref => {
     items: items,
     itemsCount: itemsCount,
     onDeleteItem: onDeleteItem,
-    itemsNotLoaded: itemsNotLoaded,
+    itemsLoaded: itemsLoaded,
     columns: columns
   }));
 };
@@ -405,7 +405,7 @@ __webpack_require__.r(__webpack_exports__);
 
 class PostsTable extends react__WEBPACK_IMPORTED_MODULE_1__.Component {
   columns = [{
-    name: "title.raw",
+    name: "title.rendered",
     lable: "Title"
   }, {
     name: "status",
@@ -425,7 +425,7 @@ class PostsTable extends react__WEBPACK_IMPORTED_MODULE_1__.Component {
       items,
       itemsCount,
       onDeleteItem,
-      itemsNotLoaded,
+      itemsLoaded,
       onSort,
       sortColumn
     } = this.props;
@@ -436,7 +436,7 @@ class PostsTable extends react__WEBPACK_IMPORTED_MODULE_1__.Component {
       items: items,
       itemsCount: itemsCount,
       onDeleteItem: onDeleteItem,
-      itemsNotLoaded: itemsNotLoaded
+      itemsLoaded: itemsLoaded
     });
   }
 }
@@ -554,9 +554,12 @@ function Edit(_ref) {
   }
   const sorted = lodash__WEBPACK_IMPORTED_MODULE_3___default().orderBy(filtered, [sortColumn.column], [sortColumn.order]);
   const userPosts = (0,_utils_paginate__WEBPACK_IMPORTED_MODULE_6__.paginate)(sorted, currentPage, pageItems);
-  const countPosts = sorted ? sorted.length : (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("i", {
-    class: "fas fa-spinner fa-pulse"
-  });
+  const countPosts = sorted ? sorted.length : (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    class: "spinner-border text-primary",
+    role: "status"
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("span", {
+    class: "visually-hidden"
+  }, "Loading..."));
 
   //Handlers
   const handleDelete = async item => {
@@ -617,7 +620,7 @@ function Edit(_ref) {
     items: userPosts,
     itemsCount: countPosts,
     onDeleteItem: handleDelete,
-    itemsNotLoaded: isLoading,
+    itemsLoaded: isLoading,
     sortColumn: sortColumn,
     onSort: handleSort
   }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_components_common_pagination__WEBPACK_IMPORTED_MODULE_5__["default"], {

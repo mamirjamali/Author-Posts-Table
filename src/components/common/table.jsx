@@ -3,7 +3,7 @@ import TableHeader from './partials/tableHeader';
 import TableBody from './partials/tableBody';
 
 const Table = ({ columns, onSort, sortColumn, items,
-                 itemsCount, onDeleteItem, itemsNotLoaded }) => {
+                 itemsCount, onDeleteItem, itemsLoaded }) => {
     
     return ( 
         <table class="table">
@@ -11,7 +11,7 @@ const Table = ({ columns, onSort, sortColumn, items,
                 sortColumn={sortColumn}
             />
             <TableBody items={items} itemsCount={itemsCount}
-                onDeleteItem={onDeleteItem} itemsNotLoaded={itemsNotLoaded}
+                onDeleteItem={onDeleteItem} itemsLoaded={itemsLoaded}
                 columns={columns}
             />
         </table >
