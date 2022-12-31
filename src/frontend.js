@@ -1,5 +1,6 @@
 import { render, useState, useEffect } from '@wordpress/element'
 import apiFetch from "@wordpress/api-fetch"
+import { toast, ToastContainer } from 'react-toastify';
 import _  from 'lodash';
 import SearchBox from './components/common/searchBox';
 import ListGroup from './components/common/listGroup';
@@ -37,7 +38,7 @@ function AuthorPostTable (props){
                         getObj[index] = ({ id: res.id, name: res.name }) 
                         if(getObj.length >= catsID.length) setLoaded(true)
                 }).catch((err) => {
-                        console.error(`We got an error: ${err.message}`);
+                        alert("Unexpected error happend")
                 });
         })
 
@@ -79,7 +80,23 @@ function AuthorPostTable (props){
         const handlePageChange = page => {
 		setCurrentPage(page)
         }
+        const handleDelete =  async item => {
+                apiFetch({
+                        path: `wp/v2/posts/${item.id}`,
+                        method: 'Delete',
+                        parse: false
+                }).then((res) => {
+                        toast.success("Item deleted successfuly");
+                }).catch((err) => {
+                        if (400 <= err.status < 500) {
+                                toast.error("Please refresh the page")
+                                return
+                        }
+                        else toast.error("Unexpected error happend")
+                })
+        }
         
+        //Render
         return (
                 <div class="row">
                         <div class="col-3">
@@ -105,6 +122,7 @@ function AuthorPostTable (props){
                                         itemsLoaded={loaded}
                                         sortColumn={sortColumn}
                                         onSort={handleSort}
+                                        onDeleteItem={handleDelete}
                                 />
                                 <Pagination
                                         currentPage={currentPage}
