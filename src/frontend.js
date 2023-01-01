@@ -37,14 +37,16 @@ function AuthorPostTable (props){
                         // parse: false,
                 }).then((res) => {
                         getObj[index] = ({ id: res.id, name: res.name }) 
-                        if(getObj.length >= catsID.length) setLoaded(true)
+                        if(catsObj?.length == catsID.length) setLoaded(true)
                 }).catch((err) => {
                         alert("Unexpected error happend")
                 });
         })
+        
 
         //Update Categories object for List Group component
         useEffect(() => {
+                
                 setCatsObj(getObj)
                 //If no post set to true
                 if (allPosts.length == 0) {

@@ -1879,7 +1879,7 @@ function AuthorPostTable(props) {
         id: res.id,
         name: res.name
       };
-      if (getObj.length >= catsID.length) setLoaded(true);
+      if (catsObj?.length == catsID.length) setLoaded(true);
     }).catch(err => {
       alert("Unexpected error happend");
     });
