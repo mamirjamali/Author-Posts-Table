@@ -1978,9 +1978,10 @@ document.addEventListener('DOMContentLoaded', async () => {
   const userID = parseInt(block.dataset.userId);
   const pageItems = parseInt(block.dataset.pageItems);
   const response = await _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_1___default()({
-    path: `wp/v2/posts?author=${userID}`,
+    path: `wp/v2/posts?author=${userID}&per_page=100`,
     method: 'GET'
   });
+  console.log(response);
   (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.render)((0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(AuthorPostTable, {
     userID: userID,
     allPosts: response,

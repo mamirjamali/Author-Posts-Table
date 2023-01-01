@@ -43,7 +43,7 @@ function AuthorPostTable (props){
                 });
         })
         
-
+        
         //Update Categories object for List Group component
         useEffect(() => {
                 
@@ -156,9 +156,10 @@ document.addEventListener('DOMContentLoaded', async()=>{
     const pageItems = parseInt(block.dataset.pageItems)
                 
     const response = await apiFetch({
-                path: `wp/v2/posts?author=${userID}`,
+                path: `wp/v2/posts?author=${userID}&per_page=100`,
                 method: 'GET',
     })
+    console.log(response)
     render(
             <AuthorPostTable userID={userID} allPosts={response} pageItems={pageItems} />,
         block
