@@ -137,7 +137,7 @@ export default function Edit({ attributes, setAttributes }) {
 				<div class="col">
 				<ToastContainer position="bottom-right"/>
 					{
-						isLoading && 
+						// isLoading && 
 						<p>You have {countPosts} posts</p>
 					}
 					<SearchBox value={searchQuery} onChange={handleSearch} />

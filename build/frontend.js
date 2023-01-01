@@ -220,7 +220,7 @@ class TableBody extends react__WEBPACK_IMPORTED_MODULE_1__.Component {
     let countRow = 1;
     return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("tbody", null, !itemsLoaded && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("td", null), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("td", null), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("td", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.Spinner, null)), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("td", null), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("td", null)), itemsLoaded && itemsCount === 0 && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", {
       class: "lead"
-    }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)('There are no posts for you to retrive.', 'apt-block')), itemsLoaded && items?.map(item => (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("tr", {
+    }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)('There is no post here.', 'apt-block')), itemsLoaded && items?.map(item => (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("tr", {
       key: item.id
     }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("th", {
       scope: "row"
@@ -1852,8 +1852,8 @@ function AuthorPostTable(props) {
     order: "asc"
   });
   const [currentPage, setCurrentPage] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useState)(1);
+  const [allPosts, setAllPosts] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useState)(props.allPosts);
   const {
-    allPosts,
     pageItems
   } = props;
 
@@ -1888,6 +1888,10 @@ function AuthorPostTable(props) {
   //Update Categories object for List Group component
   (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
     setCatsObj(getObj);
+    //If no post set to true
+    if (allPosts.length == 0) {
+      setLoaded(true);
+    }
   }, []);
 
   //Paginate & Sort
@@ -1914,6 +1918,7 @@ function AuthorPostTable(props) {
   };
   const handleCatSelect = item => {
     setSelectedCat(item);
+    setCurrentPage(1);
   };
   const handleSort = sortColumn => {
     setSortColumn(sortColumn);
@@ -1929,11 +1934,13 @@ function AuthorPostTable(props) {
     }).then(res => {
       react_toastify__WEBPACK_IMPORTED_MODULE_2__.toast.success("Item deleted successfuly");
     }).catch(err => {
-      if (400 <= err.status < 500) {
+      if (err.status >= 400 && err.status < 500) {
         react_toastify__WEBPACK_IMPORTED_MODULE_2__.toast.error("Please refresh the page");
         return;
       } else react_toastify__WEBPACK_IMPORTED_MODULE_2__.toast.error("Unexpected error happend");
     });
+    filtered = allPosts.filter(post => post.id != item.id);
+    setAllPosts(filtered);
   };
 
   //Render
@@ -1941,7 +1948,7 @@ function AuthorPostTable(props) {
     class: "row"
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     class: "col-3"
-  }, loaded && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_components_common_listGroup__WEBPACK_IMPORTED_MODULE_5__["default"], {
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_components_common_listGroup__WEBPACK_IMPORTED_MODULE_5__["default"], {
     items: catsObj,
     selectedItem: selectedCat,
     onItemSelect: handleCatSelect
@@ -1949,7 +1956,7 @@ function AuthorPostTable(props) {
     class: "col"
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_toastify__WEBPACK_IMPORTED_MODULE_2__.ToastContainer, {
     position: "bottom-right"
-  }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_components_common_searchBox__WEBPACK_IMPORTED_MODULE_4__["default"], {
+  }), loaded && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, "You have ", countPosts, " posts"), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_components_common_searchBox__WEBPACK_IMPORTED_MODULE_4__["default"], {
     value: searchQuery,
     onChange: handleSearch
   }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_components_postsTable__WEBPACK_IMPORTED_MODULE_6__["default"], {
@@ -1970,7 +1977,6 @@ document.addEventListener('DOMContentLoaded', async () => {
   const block = document.querySelector('#apt-author-posts');
   const userID = parseInt(block.dataset.userId);
   const pageItems = parseInt(block.dataset.pageItems);
-  console.log(pageItems);
   const response = await _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_1___default()({
     path: `wp/v2/posts?author=${userID}`,
     method: 'GET'

@@ -220,7 +220,7 @@ class TableBody extends react__WEBPACK_IMPORTED_MODULE_1__.Component {
     let countRow = 1;
     return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("tbody", null, !itemsLoaded && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("td", null), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("td", null), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("td", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.Spinner, null)), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("td", null), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("td", null)), itemsLoaded && itemsCount === 0 && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", {
       class: "lead"
-    }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)('There are no posts for you to retrive.', 'apt-block')), itemsLoaded && items?.map(item => (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("tr", {
+    }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)('There is no post here.', 'apt-block')), itemsLoaded && items?.map(item => (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("tr", {
       key: item.id
     }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("th", {
       scope: "row"
@@ -613,7 +613,9 @@ function Edit(_ref) {
     class: "col"
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_toastify__WEBPACK_IMPORTED_MODULE_4__.ToastContainer, {
     position: "bottom-right"
-  }), isLoading && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, "You have ", countPosts, " posts"), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_components_common_searchBox__WEBPACK_IMPORTED_MODULE_9__["default"], {
+  }),
+  // isLoading && 
+  (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, "You have ", countPosts, " posts"), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_components_common_searchBox__WEBPACK_IMPORTED_MODULE_9__["default"], {
     value: searchQuery,
     onChange: handleSearch
   }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_components_postsTable__WEBPACK_IMPORTED_MODULE_8__["default"], {

@@ -35,7 +35,7 @@ class TableBody extends Component {
                     itemsLoaded &&
                     itemsCount === 0 &&
                     <p class="lead">
-                    { __('There are no posts for you to retrive.', 'apt-block')}
+                    { __('There is no post here.', 'apt-block')}
                     </p>
             }
                 {

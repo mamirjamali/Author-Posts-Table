@@ -16,7 +16,8 @@ function AuthorPostTable (props){
         const [loaded, setLoaded] = useState(false)
         const [sortColumn, setSortColumn] = useState({ column: "title.rendered", order: "asc" })
         const [currentPage, setCurrentPage] = useState(1)
-        const { allPosts, pageItems } = props
+        const [ allPosts, setAllPosts ] = useState(props.allPosts)
+        const {pageItems } = props
         
         //Loop through posts to get categorises id
         const catIds = []
@@ -45,6 +46,10 @@ function AuthorPostTable (props){
         //Update Categories object for List Group component
         useEffect(() => {
                 setCatsObj(getObj)
+                //If no post set to true
+                if (allPosts.length == 0) {
+                        setLoaded(true)
+                }
         }, [])  
 
 	//Paginate & Sort
@@ -72,7 +77,8 @@ function AuthorPostTable (props){
         }
 
         const handleCatSelect = (item) => {
-		setSelectedCat(item)
+                setSelectedCat(item)
+                setCurrentPage(1)
         }
         const handleSort = sortColumn => {
 		setSortColumn(sortColumn)
@@ -88,29 +94,34 @@ function AuthorPostTable (props){
                 }).then((res) => {
                         toast.success("Item deleted successfuly");
                 }).catch((err) => {
-                        if (400 <= err.status < 500) {
+                        if (err.status >= 400 && err.status< 500) {
                                 toast.error("Please refresh the page")
                                 return
                         }
                         else toast.error("Unexpected error happend")
                 })
+                filtered = allPosts.filter(post =>post.id != item.id)
+                setAllPosts(filtered)
         }
         
         //Render
         return (
                 <div class="row">
                         <div class="col-3">
-                                {
-                                loaded &&  
+ 
                                 <ListGroup
                                         items={catsObj}
                                         selectedItem={selectedCat}
                                         onItemSelect={handleCatSelect}
                                 />
-                                }
                         </div>
                         <div class="col">
                                 <ToastContainer position="bottom-right" />
+                                {
+                                 loaded &&
+                                 <p>You have {countPosts} posts</p>
+                                }
+                                
 
                                 <SearchBox
                                         value={searchQuery}
@@ -141,9 +152,7 @@ document.addEventListener('DOMContentLoaded', async()=>{
     const block = document.querySelector('#apt-author-posts')
     const userID = parseInt(block.dataset.userId)
     const pageItems = parseInt(block.dataset.pageItems)
-        
-    console.log(pageItems)
-        
+                
     const response = await apiFetch({
                 path: `wp/v2/posts?author=${userID}`,
                 method: 'GET',

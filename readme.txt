@@ -9,7 +9,8 @@ License URI:       https://www.gnu.org/licenses/gpl-2.0.html
 
 == Description ==
 
-Gutenberg block to show posts created for the current user with Delete/Edit/Like features.
+Gutenberg block to show posts created for the current user with Delete/Edit features.
  
-The will be shown from every post type that admin selects and depend on admin choice the user can edit and delete it's post
-The block will also add a like feature to the determined post type
+The block will show every posts of post  post-type and depend on admin choice the user can edit and delete it's post
+
+![Admin Side] (images/apt-editor-side.png)
