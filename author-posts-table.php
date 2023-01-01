@@ -24,6 +24,7 @@ define('APT_PLUGIN_FILE', __FILE__);
 
 //Includes
 include(APT_PLUGIN_DIR . 'includes/author-posts.php');
+include(APT_PLUGIN_DIR . 'includes/enqueue.php');
 
 //Register
 function apt_block_author_posts_table_init()
@@ -33,3 +34,6 @@ function apt_block_author_posts_table_init()
 	]);
 }
 add_action('init', 'apt_block_author_posts_table_init');
+
+//Hooks
+add_action('wp_enqueue_scripts', 'apt_enqueue_scripts');

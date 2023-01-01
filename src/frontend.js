@@ -154,11 +154,12 @@ document.addEventListener('DOMContentLoaded', async()=>{
     const block = document.querySelector('#apt-author-posts')
     const userID = parseInt(block.dataset.userId)
     const pageItems = parseInt(block.dataset.pageItems)
-                
+    
     const response = await apiFetch({
-                path: `wp/v2/posts?author=${userID}`,
+                path: `wp/v2/posts?author=${userID}&per_page=${totalPostNum < 100 ? totalPostNum : 100}`,
                 method: 'GET',
     })
+
     render(
             <AuthorPostTable userID={userID} allPosts={response} pageItems={pageItems} />,
         block
